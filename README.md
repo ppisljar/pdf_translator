@@ -72,8 +72,3 @@ This repository is licensed under CC BY-NC 4.0. See [LICENSE](./LICENSE.md) for 
 
 - For PDF to text conversion, using [PaddlePaddle](https://github.com/PaddlePaddle/PaddleOCR) model.
 
-- For text translation, using [FuguMT](https://huggingface.co/staka/fugumt-en-ja) model from [HuggingFace](https://huggingface.co/).
-
-  FuguMT models are distributed under the CC BY-SA 4.0 license. Please also note that the use is clearly stated as "for research purposes only" and that "no responsibility is assumed for operation or output".
-
-- Font files are from [Source Han Serif](https://github.com/adobe-fonts/source-han-serif).
