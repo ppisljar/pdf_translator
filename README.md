@@ -40,7 +40,7 @@ pip3 install -r requirements.txt
 5. **run**
 
 ```bash
-python3 main.py
+python3 server.py
 ```
 
 
@@ -63,7 +63,7 @@ python3 main.py
 Access to GUI via browser.
 
 ```bash
-http://localhost:8288
+http://localhost:8765
 ```
 
 ## Requirements
