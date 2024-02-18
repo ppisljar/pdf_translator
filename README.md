@@ -22,6 +22,30 @@
 
 2. **Edit config.yaml and enter openai api key**
 
+### venv installation
+
+3. **create venv and activte**
+
+```bash
+python3 -m venv .
+source bin/activate
+```
+
+4. **install requirements**
+
+```bash
+pip3 install -r requirements.txt
+```
+
+5. **run**
+
+```bash
+python3 main.py
+```
+
+
+### docker installation
+
 3. **Build the docker image via Makefile**
 
 ```bash
