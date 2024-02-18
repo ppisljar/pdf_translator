@@ -3,14 +3,15 @@ from pathlib import Path
 import cv2
 import numpy as np
 from typing import Literal
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 
 from detectron2.config import get_cfg
 from detectron2.engine import DefaultPredictor
 
 sys.path.append("/unilm")
 from dit.object_detection.ditod import add_vit_config
-
+#from ditod import add_vit_config
+#from ditod.VGTTrainer import DefaultPredictor
 
 @dataclass
 class Layout:
@@ -19,12 +20,23 @@ class Layout:
     score: float
     image: np.ndarray = field(init=False)
 
+    def to_dict(self):
+        # Convert the dataclass to a dict
+        d = asdict(self)
+        # Handle the numpy array; here we're converting it to a list for simplicity
+        # Another option is to convert to a base64 string if you need to save binary data
+        d['image'] = 'test'  # For simplicity
+        d['bbox'] = d['bbox'].tolist()
+        d['score'] = float(d['score'])
+        return d
+
 
 class LayoutAnalyzer:
     def __init__(self, model_root_dir: Path, device: str = "cuda") -> None:
         self.predictor = self._load_model(model_root_dir, device=device)
 
     def __call__(self, image: np.ndarray) -> list[Layout]:
+        #grid_path = args.grid_root + args.image_name + ".pdf.pkl"
         output = self.predictor(image)["instances"].to("cpu")
 
         layouts = []
@@ -33,14 +45,14 @@ class LayoutAnalyzer:
             output.pred_boxes.tensor.numpy().astype(int),
             output.scores.numpy(),
         ):
-            if score > 0.9:
+            if score > 0.8:
                 layouts.append(
                     Layout(
                         type=self._id_to_class_names[class_id], bbox=box, score=score
                     )
                 )
 
-        layouts = self._remove_overlapping_layouts(layouts)
+        #layouts = self._remove_overlapping_layouts(layouts)
 
         for layout in layouts:
             layout.image = self._get_image(image, layout.bbox)
