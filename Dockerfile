@@ -34,4 +34,4 @@ RUN git clone https://github.com/microsoft/unilm.git /unilm \
 
 
 
-ENTRYPOINT [ "cd /app && python3 server.py" ]
+ENTRYPOINT [ "python3", "server.py" ]
