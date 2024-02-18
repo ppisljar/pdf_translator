@@ -16,7 +16,7 @@
 1. **Clone this repository**
 
 ```bash
-   git clone https://github.com/discus0434/pdf_translator.git
+   git clone https://github.com/ppisljar/pdf_translator.git
    cd pdf_translator
 ```
 
