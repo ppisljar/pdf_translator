@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 from tqdm import tqdm
 import gradio as gr
 import yaml
+import os
 
 #sys.path.append(str(Path(__file__).parent))
 
@@ -31,8 +32,12 @@ def load_config(base_config_path, override_config_path):
     with open(base_config_path, 'r') as base_file:
         base_config = yaml.safe_load(base_file)
     
-    with open(override_config_path, 'r') as override_file:
-        override_config = yaml.safe_load(override_file)
+    final_config = base_config
+
+    if os.path.exists(override_config_path):
+        with open(override_config_path, 'r') as override_file:
+            override_config = yaml.safe_load(override_file)
+            final_config = update(base_config, override_config)
     
     # Update the base config with the override config
     # This recursively updates nested dictionaries
@@ -44,12 +49,11 @@ def load_config(base_config_path, override_config_path):
                 d[k] = v
         return d
 
-    final_config = update(base_config, override_config)
     return final_config
 
 cfg = load_config('config.yaml', 'config.dev.yaml')
 
-openai_client = OpenAI(api_key=cfg.openai_api_key)
+openai_client = OpenAI(api_key=cfg['openai_api_key'])
 
 
 def system_prompt(from_lang, to_lang):

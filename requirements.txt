@@ -1,4 +1,5 @@
 torch
+torchvision
 networkx
 transformers==4.30 
 sentencepiece
@@ -23,5 +24,7 @@ numpy
 pytest 
 einops 
 tensorboard 
-opencv-python
 Shapely==1.8.4 
+opencv-python=
+opencv-python-headless
+openai
