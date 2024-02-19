@@ -55,17 +55,16 @@ if this is not changed translation engine will default to google translate
    make run
 ```
 
-### venv installation (currently not working)
+### venv installation
 
 3. **create venv and activte**
 
 prerequesites:
-- ffmpeg
+- ffmpeg, ... possibly more, check Dockerfile if you are running into issues
 
 ```bash
 python3 -m venv .
 source bin/activate
-mkdir temp
 ```
 
 4. **install requirements**
