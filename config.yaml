@@ -1,1 +1,14 @@
-openai_api_key: YOUR-KEY-GOES-HERE
+translator:
+  type: google_translate #openai
+  openai_api_key: YOUR-KEY-GOES-HERE
+
+layout:
+  type: 'dit'
+  device: 'cuda'
+
+ocr:
+  type: 'paddle'
+  device: 'cuda'
+
+font:
+  type: 'simple'

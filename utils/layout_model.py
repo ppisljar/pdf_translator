@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import cv2
 import numpy as np
-from typing import Literal
+from typing import Literal, Optional
 from dataclasses import asdict, dataclass, field
 
 from detectron2.config import get_cfg
@@ -19,7 +19,11 @@ class Layout:
     bbox: tuple[int, ...]
     score: float
     image: np.ndarray = field(init=False)
-
+    text: Optional[str] = None
+    translated_text: Optional[str] = None
+    line_cnt: Optional[int] = None
+    font: Optional[dict] = None
+    
     def to_dict(self):
         # Convert the dataclass to a dict
         d = asdict(self)
