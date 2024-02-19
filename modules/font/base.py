@@ -7,7 +7,7 @@ class FontBase(ABC):
 
 
     @abstractmethod
-    def get_font_into(self, image):
+    def get_font_info(self, image, line_cnt):
         """
         Translates a given string into another language.
 

@@ -1,12 +1,14 @@
 translator:
-  - type: openai
-  - openai_api_key: YOUR-KEY-GOES-HERE
+  type: google_translate #openai
+  openai_api_key: YOUR-KEY-GOES-HERE
 
 layout:
-  - type: 'dit'
+  type: 'dit'
+  device: 'cuda'
 
 ocr:
-  - type: 'paddle'
+  type: 'paddle'
+  device: 'cuda'
 
 font:
-  - type: 'simple'
+  type: 'simple'

@@ -1,4 +1,5 @@
 import re
+import numpy as np
 from tqdm import tqdm
 from .base import FontBase 
 
@@ -8,33 +9,23 @@ class SimpleFont(FontBase):
     def init(self, cfg: dict):
         self.cfg = cfg
  
-    def get_all_fonts(self, layout) -> str:
+    def get_all_fonts(self, layout):
 
         for i, line in tqdm(enumerate(layout)):
             if line.type in ["text", "list", "title"]:
                 # update this so image is created from images and layout bbox info
                 image = line.image
-                ocr_results = self.get_font(image, line.line_cnt)
-                text = list(map(lambda x: x[0],ocr_results[1]))
-                text = " ".join(text)
-                text = re.sub(r"\n|\t|", " ", text)
-                line.text = text
-
-                lasty = 0
-                cnt = 0
-                for x in ocr_results[0]:
-                    if x[0][1] > lasty:
-                        cnt+=1
-                        lasty = x[2][1]
-
-                line.line_cnt = cnt
+                family, size, ygain = self.get_font_info(image, line.line_cnt)
+                line.font = { "family": family, "size": size, "ygain": ygain }
 
 
         return layout
     
-    def get_font(self, image, line_cnt = 1):
-        width = image.size[0]
-        height = image.size[1]
+    def get_font_info(self, image: np.ndarray, line_cnt: int = 1):
+        if image.ndim == 3:  # If the image has channels (e.g., RGB)
+            height, width, _ = image.shape
+        else:  # For a 2D image (grayscale)
+            height, width = image.shape
 
         font_size = height / line_cnt
 

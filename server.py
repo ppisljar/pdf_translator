@@ -13,18 +13,15 @@ from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, Field
 from tqdm import tqdm
 import gradio as gr
-import yaml
-import os
 
 
-from .utils import fw_fill, create_gradio_app, load_config, draw_text
-from .modules import load_translator, load_layout_engine, load_ocr_engine, load_font_engine
+from utils import fw_fill, create_gradio_app, load_config, draw_text
+from modules import load_translator, load_layout_engine, load_ocr_engine, load_font_engine
 
 
 
 
 cfg = load_config('config.yaml', 'config.dev.yaml')
-
 translator = load_translator(cfg['translator'])
 layout_engine = load_layout_engine(cfg['layout'])
 ocr_engine = load_ocr_engine(cfg['ocr'])
@@ -61,7 +58,7 @@ class TranslateApi:
         Tokenizer for the translation model
     """
 
-    
+    DPI = 200
 
     def __init__(self, model_root_dir: Path = Path("/app/models/")):
         self.app = FastAPI()
@@ -77,7 +74,7 @@ class TranslateApi:
             methods=["GET"],
         )
 
-        gradioapp = create_gradio_app()
+        gradioapp = create_gradio_app(translator.get_languages())
         gr.mount_gradio_app(self.app, gradioapp, '/')
 
         self.temp_dir = tempfile.TemporaryDirectory()
@@ -142,7 +139,7 @@ class TranslateApi:
             if i > p_to and p_to != 0: break
             result = layout_engine.get_single_layout(image)
             result = ocr_engine.get_all_text(result)
-            result = translator.translate_all(result)
+            result = translator.translate_all(result, from_lang, to_lang)
             result = font_engine.get_all_fonts(result)
 
 
@@ -199,16 +196,16 @@ class TranslateApi:
                     # calculate text wrapping
                     processed_text = fw_fill(
                         line.translated_text,
-                        width=int((width) / ((line.font_size)/2.4))
+                        width=int((width) / ((line.font['size'])/2.4))
                         - 1,
                     )
 
-                    fnt = ImageFont.truetype(line.font.family, line.font.size) 
+                    fnt = ImageFont.truetype('fonts/' + line.font['family'], line.font['size']) 
                     
                     # create new image block with new text
-                    new_block = Image.new("RGB", ( height, width ), color=(255, 255, 255))
+                    new_block = Image.new("RGB", ( width, height ), color=(255, 255, 255))
                     draw = ImageDraw.Draw(new_block)
-                    draw_text(draw, processed_text, fnt, line.font_size, width, line.ygain)
+                    draw_text(draw, processed_text, fnt, line.font['size'], width, line.font['ygain'])
 
                     # copy over original image
                     

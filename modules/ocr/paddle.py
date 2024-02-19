@@ -1,5 +1,6 @@
 import re
 import numpy as np
+from pathlib import Path
 from tqdm import tqdm
 from .base import OCRBase 
 from utils import OCRModel
@@ -7,7 +8,7 @@ from utils import OCRModel
 class PaddleOCR(OCRBase):
     def init(self, cfg: dict):
         self.ocr_model = OCRModel(
-            model_root_dir= "models/paddle-ocr", device=self.device
+            model_root_dir= Path("models/paddle-ocr"), device=cfg['device']
         )
  
     def get_all_text(self, layout) -> str:
@@ -19,8 +20,8 @@ class PaddleOCR(OCRBase):
                 ocr_results = self.get_text(image)
                 text = list(map(lambda x: x[0],ocr_results[1]))
                 text = " ".join(text)
-                text = re.sub(r"\n|\t|", " ", text)
-                line.text = text
+                clean_text = re.sub(r"\n|\t", " ", text)
+                line.text = clean_text
 
                 lasty = 0
                 cnt = 0

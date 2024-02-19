@@ -9,7 +9,7 @@ from utils import LayoutAnalyzer
 class DiTLayout(LayoutBase):
     def init(self, cfg: dict):
         self.layout_model = LayoutAnalyzer(
-            model_root_dir= "models/unilm", device=self.device
+            model_root_dir= Path("models/unilm"), device=cfg['device']
         )
 
         self.DPI = cfg['DPI'] if 'DPI' in cfg else 200
