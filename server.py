@@ -25,7 +25,7 @@ import os
 
 from utils import LayoutAnalyzer, OCRModel, fw_fill, create_gradio_app
 
-from openai import OpenAI
+from .modules import load_translator
 
 
 def load_config(base_config_path, override_config_path):
@@ -53,27 +53,7 @@ def load_config(base_config_path, override_config_path):
 
 cfg = load_config('config.yaml', 'config.dev.yaml')
 
-openai_client = OpenAI(api_key=cfg['openai_api_key'])
-
-
-def system_prompt(from_lang, to_lang):
-    p  = "You are an %s-to-%s translator. " % (from_lang, to_lang)
-    p += "Keep all special characters and HTML tags as in the source text. Return only %s translation." % to_lang
-    return p
-
-
-def translate_chunk(text, from_lang='ENGLISH', to_lang='SLOVENIAN'):
-    response = openai_client.chat.completions.create(
-        model='gpt-4-1106-preview',
-        temperature=0.2,
-        messages=[
-            { 'role': 'system', 'content': system_prompt(from_lang, to_lang) },
-            { 'role': 'user', 'content': text },
-        ]
-    )
-
-    translated_text = response.choices[0].message.content
-    return translated_text
+translator = load_translator(cfg['translator'])
 
 def draw_text(draw, processed_text, current_fnt, font_size, width, ygain):
     y = 0
@@ -369,7 +349,7 @@ class TranslateApi:
                     #translated_text = self.__translate_sl(text)
 
                     # 4. translate text
-                    translated_text = translate_chunk(text, from_lang, to_lang)
+                    translated_text = translator.translate(text, from_lang, to_lang)
 
                     height = line.bbox[3] - line.bbox[1]
                     width = line.bbox[2] - line.bbox[0]
