@@ -1,7 +1,6 @@
 
 
 def load_translator(cfg: dict):
-    print(cfg)
     if cfg['type'] == 'openai':
         from .translate.openai_gpt import TranslateOpenAIGPT
         translator = TranslateOpenAIGPT()

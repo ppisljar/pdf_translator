@@ -10,6 +10,22 @@
 
 ## Features
 
+- translate PDF files while preserving layout
+
+- translation engines:
+   - google translate (default)
+   - openAI (best)
+
+- layout recognition engines:
+   - UniLM DiT
+
+- OCR engines:
+   - PaddleOCR
+
+- Font recognition engines:
+   - /
+
+
 
 ## Installation
 
@@ -21,6 +37,8 @@
 ```
 
 2. **Edit config.yaml and enter openai api key**
+change type to 'openai' and enter your key under openai_api_key
+if this is not changed translation engine will default to google translate
 
 
 ### docker installation
@@ -41,9 +59,13 @@
 
 3. **create venv and activte**
 
+prerequesites:
+- ffmpeg
+
 ```bash
 python3 -m venv .
 source bin/activate
+mkdir temp
 ```
 
 4. **install requirements**
