@@ -16,6 +16,9 @@ RUN apt-get update \
         git \
         python3-dev \
         python3-pip \
+        ffmpeg \
+        libsm6 \
+        libxext6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
@@ -25,13 +28,6 @@ WORKDIR /app
 ADD . /app/
 
 RUN pip install -r requirements.txt
-RUN pip install \
-        "git+https://github.com/facebookresearch/detectron2.git"
-
-RUN git clone https://github.com/microsoft/unilm.git /unilm \
-        && sed -i 's/from collections import Iterable/from collections.abc import Iterable/' \
-        /unilm/dit/object_detection/ditod/table_evaluation/data_structure.py
-
-
+RUN pip install "git+https://github.com/facebookresearch/detectron2.git"
 
 ENTRYPOINT [ "python3", "server.py" ]
