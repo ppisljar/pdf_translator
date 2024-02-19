@@ -71,6 +71,7 @@ source bin/activate
 
 ```bash
 pip3 install -r requirements.txt
+pip3 install "git+https://github.com/facebookresearch/detectron2.git"
 ```
 
 5. **run**
