@@ -8,9 +8,9 @@
 # --------------------------------------------------------------------------------
 
 from .config import add_vit_config
-from .backbone import build_vit_fpn_backbone
+from .VGTbackbone import build_VGT_fpn_backbone
 from .dataset_mapper import DetrDatasetMapper
-from .mycheckpointer import MyDetectionCheckpointer
-from .icdar_evaluation import ICDAREvaluator
-from .mytrainer import MyTrainer
-from .table_evaluation import calc_table_score
+from .VGTTrainer import VGTTrainer
+from .VGT import VGT
+
+from .utils import eval_and_show, load_gt_from_json, pub_load_gt_from_json
