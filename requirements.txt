@@ -26,5 +26,5 @@ einops
 tensorboard 
 Shapely==1.8.4 
 opencv-python
-opencv-python-headless
+opencv-python-headless==4.8.1.78
 openai
