@@ -29,3 +29,4 @@ opencv-python
 opencv-python-headless==4.8.1.78
 openai
 googletrans==3.1.0a0
+detectron2 @ git+https://github.com/facebookresearch/detectron2.git

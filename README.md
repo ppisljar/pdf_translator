@@ -71,10 +71,15 @@ source bin/activate
 
 ```bash
 pip3 install -r requirements.txt
-pip3 install "git+https://github.com/facebookresearch/detectron2.git"
 ```
 
-5. **run**
+5. **get models**
+
+```bash
+make get_models
+```
+
+6. **run**
 
 ```bash
 python3 server.py
