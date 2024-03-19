@@ -98,7 +98,7 @@ class TranslateOpenAIGPT(TranslateBase):
     def init(self, cfg: dict):
         self.client = OpenAI(api_key=cfg['openai_api_key'])
 
-    def get_languages():
+    def get_languages(self):
         return langs
 
     def translate(self, text: str, from_lang='ENGLISH', to_lang='SLOVENIAN') -> str:
