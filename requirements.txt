@@ -4,6 +4,7 @@ networkx
 transformers==4.30 
 sentencepiece
 pdf2image
+fastapi==0.112.4
 fastapi[uvicorn]
 uvicorn
 PyPDF2
@@ -16,11 +17,11 @@ scikit-image
 python-multipart 
 onnxruntime 
 requests
-gradio 
+gradio==4.29.0
 Pillow==8.4.0 
 blobfile 
 mypy 
-numpy
+numpy<2.0.0
 pytest 
 einops 
 tensorboard 
@@ -28,4 +29,3 @@ Shapely==1.8.4
 opencv-python
 opencv-python-headless==4.8.1.78
 openai
-googletrans==3.1.0a0
